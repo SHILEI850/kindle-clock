@@ -8,7 +8,7 @@ with open("template.html", "r", encoding="utf-8") as f:
 
 # ── 2. 取北京时间并“向上取整”到下一个整分钟 ─
 now = datetime.now(timezone("Asia/Shanghai"))
-now += timedelta(minutes=1)                # 提前 1 分钟
+now += timedelta(minutes=5)                # 提前 5 分钟
 now = now.replace(second=0, microsecond=0) # 把秒数清零
 
 time_str   = now.strftime("%H:%M")
