@@ -45,7 +45,7 @@
     <div class="quote" id="quoteDisplay">今日のひとこと：読み込み中...</div>
     <div class="translation" id="translationDisplay">翻訳読み込み中...</div>
     <div class="time" id="timeDisplay">時間読み込み中...</div>
-    div class="note">（以上時間は北京時間です）</div>
+    <div class="note">（以上時間は北京時間です）</div>
   </div>
 
   <script>
@@ -68,7 +68,7 @@
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('timeDisplay').textContent = `現在北京時間：${hours}:${minutes}:${seconds}`;
+      document.getElementById('timeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
 
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
