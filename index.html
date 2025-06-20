@@ -23,10 +23,12 @@
       font-size: 2em;
       margin: 0.5em 0;
     }
+     /*时间的字体大小和颜色*/
     .date, .time, .quote, .translation {
       font-size: 1.5em;
       margin: 0.5em 0;
     }
+     /*翻译的字体大小和颜色 */
     .translation {
       font-size: 1em;
       color: #666;
@@ -40,7 +42,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>🌤 おはよう</h1>
+    <h1> おはよう</h1>
     <div class="date" id="dateDisplay">日付読み込み中...</div>
     <div class="quote" id="quoteDisplay">今日のひとこと：読み込み中...</div>
     <div class="translation" id="translationDisplay">翻訳読み込み中...</div>
@@ -83,7 +85,7 @@
 
     function initQuote() {
       const quote = selectQuote();
-      document.getElementById('quoteDisplay').textContent = `今日のひとこと：${quote.ja}`;
+      document.getElementById('quoteDisplay').textContent = `${quote.ja}`;
       document.getElementById('translationDisplay').textContent = `（${quote.zh}）`;
     }
 
