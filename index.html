@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Kindle 欢迎主页</title>
+  <title>Kindle 時計</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 可爱圆滚滚字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <style>
-    /* 基础样式 */
     body {
       background-color: #fafafa;
       color: #333;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Comic Neue', sans-serif;
       text-align: center;
       margin: 0;
       padding: 20px;
@@ -22,9 +23,13 @@
       font-size: 2em;
       margin: 0.5em 0;
     }
-    .date, .time, .quote {
+    .date, .time, .quote, .translation {
       font-size: 1.5em;
       margin: 0.5em 0;
+    }
+    .translation {
+      font-size: 1em;
+      color: #666;
     }
     .note {
       font-size: 1em;
@@ -35,65 +40,52 @@
 </head>
 <body>
   <div class="container">
-    <!-- 欢迎语 -->
-    <h1>🌤 おはよう, Welcome!</h1>
-    <!-- 日期和星期 -->
-    <div class="date" id="dateDisplay">日期加载中...</div>
-    <!-- 每日一句 -->
-    <div class="quote" id="quoteDisplay">今日のひとこと：加载中...</div>
-    <!-- 当前时间 -->
-    <div class="time" id="timeDisplay">时间加载中...</div>
-    <div class="note">（以上时间为北京时间）</div>
+    <h1>🌤 おはよう</h1>
+    <div class="date" id="dateDisplay">日付読み込み中...</div>
+    <div class="quote" id="quoteDisplay">今日のひとこと：読み込み中...</div>
+    <div class="translation" id="translationDisplay">翻訳読み込み中...</div>
+    <div class="time" id="timeDisplay">時間読み込み中...</div>
+    div class="note">（以上時間は北京時間です）</div>
   </div>
 
   <script>
-    // 设置每日一句内容数组（可根据需要添加更多）
     const quotes = [
-      { ja: "焦らず、腐らず、怠らず。", en: "Steady, uncorrupted, and diligent." },
-      { ja: "一日一善。", en: "Do one good deed a day." },
-      { ja: "明日は明日の風が吹く。", en: "Tomorrow is another day." },
-      { ja: "小さな一歩が大きな未来へ。", en: "A small step leads to a big future." }
+      { ja: "焦らず、腐らず、怠らず。", zh: "不焦躁、不腐烂、不懒惰。" },
+      { ja: "一日一善。", zh: "每天做一件好事。" },
+      { ja: "明日は明日の風が吹く。", zh: "明天会有明天的风。" },
+      { ja: "小さな一歩が大きな未来へ。", zh: "小小的一步，迈向伟大的未来。" }
     ];
 
-    // 随机选择一句
     function selectQuote() {
       const index = Math.floor(Math.random() * quotes.length);
       return quotes[index];
     }
 
-    // 更新日期和时间显示
     function updateClock() {
-      // 获取当前UTC时间，然后加8小时转换为北京时间
       const now = new Date();
       now.setHours(now.getHours() + 8);
-      
-      // 格式化时间
+
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('timeDisplay').textContent = `当前北京时间：${hours}:${minutes}:${seconds}`;
+      document.getElementById('timeDisplay').textContent = `現在北京時間：${hours}:${minutes}:${seconds}`;
 
-      // 格式化日期及星期
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const day = String(now.getDate()).padStart(2, '0');
-      // 星期数组 (中文星期)
       const weekDays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
       const weekDay = weekDays[now.getDay()];
       document.getElementById('dateDisplay').textContent = `${year}年${month}月${day}日 ${weekDay}`;
     }
 
-    // 初始化每日一句，只在页面加载时随机一次
     function initQuote() {
       const quote = selectQuote();
-      document.getElementById('quoteDisplay').textContent = `今日のひとこと：${quote.ja} / "${quote.en}"`;
+      document.getElementById('quoteDisplay').textContent = `今日のひとこと：${quote.ja}`;
+      document.getElementById('translationDisplay').textContent = `（${quote.zh}）`;
     }
 
-    // 初始运行
     updateClock();
     initQuote();
-
-    // 每秒更新一次时间（毫秒级更新）
     setInterval(updateClock, 1000);
   </script>
 </body>
