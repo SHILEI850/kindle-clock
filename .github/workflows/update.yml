@@ -25,9 +25,12 @@ jobs:
         python .github/workflows/generate.py
 
     - name: 提交并推送
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config user.name "kindle-clock-bot"
         git config user.email "bot@example.com"
         git add index.html
         git commit -m "📅 自动更新时间 $(date +'%Y-%m-%d %H:%M:%S')" || echo "无变化无需提交"
-        git push
+        git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }} HEAD:main
+
