@@ -1,97 +1,56 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>Kindle 時計</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 可爱圆滚滚字体 -->
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
+  <meta http-equiv="refresh" content="60"> <!-- 每分钟刷新一次 -->
+  <title>北京时间</title>
   <style>
     body {
-      background-color: #fafafa;
-      color: #333;
-      font-family: 'Comic Neue', sans-serif;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
       text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
+      padding-top: 10vh;
     }
     h1 {
-      font-size: 2em;
-      margin: 0.5em 0;
-    }
-     /*时间的字体大小和颜色*/
-    .date, .time, .quote, .translation {
       font-size: 1.5em;
-      margin: 0.5em 0;
+      margin-bottom: 1em;
     }
-     /*翻译的字体大小和颜色 */
-    .translation {
-      font-size: 1em;
-      color: #666;
+    #time {
+      font-size: 3em;
+      margin-bottom: 0.5em;
     }
-    .note {
-      font-size: 1em;
-      color: #777;
-      margin-top: 1em;
+    #date {
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1> おはよう</h1>
-    <div class="date" id="dateDisplay">日付読み込み中...</div>
-    <div class="quote" id="quoteDisplay">今日のひとこと：読み込み中...</div>
-    <div class="translation" id="translationDisplay">翻訳読み込み中...</div>
-    <div class="time" id="timeDisplay">時間読み込み中...</div>
-   <!-- <div class="note">（以上時間は北京時間です）</div> -->
-  </div>
+  <h1>📍 北京时间</h1>
+  <div id="time">加载中…</div>
+  <div id="date">请稍候…</div>
 
   <script>
-    const quotes = [
-      { ja: "焦らず、腐らず、怠らず。", zh: "不焦躁、不腐烂、不懒惰。" },
-      { ja: "一日一善。", zh: "每天做一件好事。" },
-      { ja: "明日は明日の風が吹く。", zh: "明天会有明天的风。" },
-      { ja: "小さな一歩が大きな未来へ。", zh: "小小的一步，迈向伟大的未来。" },
-      { ja: "失敗しても、立ち上がるたびに強くなる。", zh: "每次跌倒后重新站起，都会让你更强大。" },
-      { ja: "努力は裏切らない。", zh: "努力终不会辜负你。" },
-      { ja: "今日という日は、残りの人生の最初の日。", zh: "今天，是你余生的第一天。" }
-    ];
+    fetch('https://worldtimeapi.org/api/timezone/Asia/Shanghai')
+      .then(response => response.json())
+      .then(data => {
+        const date = new Date(data.datetime);
 
-    function selectQuote() {
-      const index = Math.floor(Math.random() * quotes.length);
-      return quotes[index];
-    }
+        // 格式化小时和分钟
+        let hours = date.getHours().toString().padStart(2, '0');
+        let minutes = date.getMinutes().toString().padStart(2, '0');
+        document.getElementById("time").textContent = `${hours}:${minutes}`;
 
-    function updateClock() {
-      const now = new Date();
-      now.setHours(now.getHours() + 8);
-
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('timeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
-
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const weekDays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-      const weekDay = weekDays[now.getDay()];
-      document.getElementById('dateDisplay').textContent = `${year}年${month}月${day}日 ${weekDay}`;
-    }
-
-    function initQuote() {
-      const quote = selectQuote();
-      document.getElementById('quoteDisplay').textContent = `${quote.ja}`;
-      document.getElementById('translationDisplay').textContent = `（${quote.zh}）`;
-    }
-
-    updateClock();
-    initQuote();
-    setInterval(updateClock, 1000);
+        // 格式化年月日 星期
+        const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        const dateStr = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日（${weekdays[date.getDay()]}）`;
+        document.getElementById("date").textContent = dateStr;
+      })
+      .catch(error => {
+        document.getElementById("time").textContent = "无法获取时间";
+        document.getElementById("date").textContent = "请检查网络连接";
+      });
   </script>
 </body>
 </html>
