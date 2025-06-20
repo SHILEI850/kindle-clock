@@ -1,0 +1,6 @@
+name               = "kindle-clock"
+main               = "src/worker.js"
+compatibility_date = "2025-06-20"
+
+[triggers]
+crons = ["*/1 * * * *"]   # 每 1 分钟执行一次
